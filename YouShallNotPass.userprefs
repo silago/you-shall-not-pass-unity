@@ -1,0 +1,18 @@
+﻿<Properties StartupItem="Assembly-CSharp.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Wizard/DrawProcessor.cs">
+    <Files>
+      <File FileName="Assets/Spells/Scripts/SpellLaser.cs" Line="1" Column="1" />
+      <File FileName="Assets/Spells/Scripts/SpellBolt.cs" Line="1" Column="1" />
+      <File FileName="Assets/EnemyEmitterScript.cs" Line="1" Column="1" />
+      <File FileName="Assets/Spells/Scripts/SpellRain.cs" Line="1" Column="1" />
+      <File FileName="Assets/Lib/GameElement.cs" Line="1" Column="1" />
+      <File FileName="Assets/Spells/Scripts/SpellGolem.cs" Line="1" Column="1" />
+      <File FileName="Assets/Wizard/DrawProcessor.cs" Line="1" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
