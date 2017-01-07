@@ -9,6 +9,8 @@ using UnityEngine;
 
 public class EnemyEmitterScript : MonoBehaviour {
 	public Wave[] waves;
+	private List<GameObject> _emitted = new List<GameObject>() ;// _emitted = new List<GameObject>();
+
 	void Start () {
 		
 	}
@@ -19,10 +21,7 @@ public class EnemyEmitterScript : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		//return;
-		//this.timer+=Time.deltaTime;
 		foreach (Wave currentWave  in this.waves) {
-			//if (currentWave.
 			if (currentWave.is_complete == true) {
 				continue;
 			}
@@ -32,23 +31,31 @@ public class EnemyEmitterScript : MonoBehaviour {
 					is_wave_complete = false;
 				}
 				if (Enemy.isReady () == true) {
-					GameObject ins = Instantiate ( Enemy.GetEnemy () /* Enemy.EnemyType */);
-					Debug.Log ("Emitted");
+					GameObject ins = (GameObject)Instantiate ( Enemy.GetEnemy () /* Enemy.EnemyType */);
+					Debug.Log (ins.gameObject);
+					if (ins.gameObject == null) {
+						
+					}
 
+					this._emitted.Add (ins);
 					if (Enemy.StartPos != null) {
 						ins.transform.position = Enemy.StartPos.transform.position;
-						Debug.Log ("Position Set");
 					}
 				}
 			}
 			if (is_wave_complete) {
-				currentWave.is_complete = true;
-				foreach (string spell_name in currentWave.spells_rewards) {
-					DrawProcessor._instance.activateSpell (spell_name);
-					Debug.Log ("Spell Given");
+				//parameterList.RemoveAll(item => item == null);
+				this._emitted.RemoveAll(item => item == null);
+				if (this._emitted.Count == 0) {
+					currentWave.is_complete = true;
+				
+					foreach (string spell_name in currentWave.spells_rewards) {
+						DrawProcessor._instance.activateSpell (spell_name);
+						Debug.Log ("Spell Given");
+					}
+					Debug.Log ("Wave Complete");
+					SceneControlScript.CompleteLevel ();
 				}
-				Debug.Log ("Wave Complete");
-
 			}
 		}
 	}

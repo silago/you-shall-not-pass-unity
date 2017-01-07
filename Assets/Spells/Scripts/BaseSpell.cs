@@ -10,7 +10,4 @@ public class BaseSpell : GameElement {
 		return this.points;
 	}
 
-	void Update () {
-		
-	}
 }

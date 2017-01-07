@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class SpellBolt : BaseSpell {
 	public int cost  = 2;
-	public int _speed = 300;
+	private float  _speed = 1f;
 	//Rigidbody2D rigidbody2D;
 
 	void Start () {
@@ -15,7 +15,10 @@ public class SpellBolt : BaseSpell {
 
 
 	public void Cast () {
-		this.GetComponent<Rigidbody2D>().velocity = new Vector2 (Time.deltaTime*this._speed, 0);
+		//new Vec
+		Debug.Log(this._speed);
+
+		this.GetComponent<Rigidbody2D>().velocity = new Vector2 (this._speed, 0);
 	}
 
 	// Update is called once per frame

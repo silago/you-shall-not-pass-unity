@@ -48,6 +48,9 @@
   <ItemGroup>
      <Compile Include="Assets\Enemies\Scripts\EnemyScript.cs" />
      <Compile Include="Assets\EnemyEmitterScript.cs" />
+     <Compile Include="Assets\GameControl.cs" />
+     <Compile Include="Assets\GameState.cs" />
+     <Compile Include="Assets\LevelsListScript.cs" />
      <Compile Include="Assets\Lib\GameElement.cs" />
      <Compile Include="Assets\SceneControlScript.cs" />
      <Compile Include="Assets\Scripts\EnemyContainter.cs" />

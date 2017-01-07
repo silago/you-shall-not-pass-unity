@@ -10,6 +10,7 @@ public class EnemyContainter  {
 	public GameObject EnemyType;
 	public GameObject StartPos;
 	float timer  = 0;
+	//private List<GameObject> _emitted;
 
 
 	public GameObject GetEnemy() {
@@ -35,5 +36,3 @@ public class EnemyContainter  {
 			return false;
 	}
 }
-
-//public EnemyContaier EnemyContaierTest;

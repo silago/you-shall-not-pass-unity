@@ -5,11 +5,21 @@ using System;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 
+
+[Serializable]
+public class DrawerSpellContainer {
+	public String name;
+	public BaseSpell spell;
+	public bool active = false;
+}
+
 [RequireComponent(typeof(LineRenderer))]
 public class DrawProcessor : MonoBehaviour {
 	List<int[]> path = new List<int[]>();
 	List<int[]> points = new List<int[]>();
-	public List<BaseSpell> spells;
+	//public List<BaseSpell> spells;
+	public DrawerSpellContainer[] spells;
+
 	bool active = false;
 	LineRenderer lineRenderer;
 	private  string active_spells_path = "";
@@ -36,74 +46,60 @@ public class DrawProcessor : MonoBehaviour {
 
 
 	void loadSpells() {
-		if (!File.Exists (active_spells_path)) {
-			return;
-		}
-		BinaryFormatter bf = new BinaryFormatter ();
-		FileStream fs = File.Open (active_spells_path,FileMode.Open);
-
-		Dictionary<String,Boolean> spells_data = (Dictionary<String,Boolean>)bf.Deserialize (fs);
-		fs.Close ();
-
-		foreach (BaseSpell spell in _instance.spells) {
-			//Debug.Log (spells_data);
-			if (spell == null) {
-				continue;
+		List<String> _data = GameControl.LoadData<List<String>> ("ActiveSpells");
+		foreach (string spellname in _data) {
+			foreach (DrawerSpellContainer c in this.spells) {
+				if (spellname == c.name) {
+					c.active = true;
+				}
 			}
-			if (spells_data.ContainsKey (spell.name)) {
-				spell.active = spells_data [spell.name];
-			}
-		}
+		}	
 	}
 
 	void saveSpells() {
-		BinaryFormatter bf = new BinaryFormatter ();
-		FileStream fs = File.Create (active_spells_path);
-
-		//Dictionary<String,Boolean> spells_data = (Dictionary<String,Boolean>)bf.Deserialize (fs);
-		//fs.Close ();
-		Dictionary<String,Boolean> spells_data = new Dictionary<String,Boolean>();
-		foreach (BaseSpell spell in this.spells) {
-			if (spell!=null && spell.name !="")
-				spells_data.Add (spell.name, spell.active);
+		List<String> _data = new List<String>();
+		foreach (DrawerSpellContainer c in this.spells) {
+			if (c.active) {
+				_data.Add(c.name);
+			}
 		}
-		bf.Serialize (fs, spells_data);
-		fs.Close ();
-
+		GameControl.SaveData("ActiveSpells",_data);
 	}
 	void activateAll() {
-		foreach (BaseSpell spell in this.spells) {
-			spell.active = true;
-		}
+		//foreach (BaseSpell spell in this.spells) {
+		//	spell.active = true;
+		//}
 	}
 	void deactivateAll() {
-		foreach (BaseSpell spell in this.spells) {
-				spell.active = false;
-		}
+		//foreach (BaseSpell spell in this.spells) {
+		//		spell.active = false;
+		//}
 	}
 
-	public void activateSpell(string spell_name) {
-		foreach (BaseSpell spell in this.spells) {
-			if (spell == null) {
-				continue;
-			}
-			if (spell.spell_name == spell_name) {
-				spell.active = true;
-				break;
+	public void activateSpell(string spellname) {
+		foreach (DrawerSpellContainer spell_container in this.spells) {
+			if (spell_container.spell.name == spellname) {
+				spell_container.active = true;
 			}
 		}
-
-		this.saveSpells ();
+		//Console.Log(spellname)
+		//this.spells.Add(
+		//	GameElement.init(
+		//		Instantiate(Resources.Load( spellname ))
+		//	)
+		//);
+		//this.saveSpells ();
 	}
 
 	// Use this for initialization
 	void Start () {
-		this.loadSpells ();
+		//this.saveSpells ();
+		//this.loadSpells ();
 		//this.deactivateAll ();
-		this.activateSpell ("Rain");
-		this.activateSpell ("Bolt");
-		this.activateSpell ("Laser");
-		this.activateSpell ("Golem");
+		//this.activateSpell ("Rain");
+		//this.activateSpell ("Bolt");
+		//this.activateSpell ("Laser");
+		this.activateSpell ("SpellBolt");
 	}
 
 
@@ -210,9 +206,9 @@ public class DrawProcessor : MonoBehaviour {
 		result.Add(new int[]{0,0});
 		result.AddRange(this.reducePoints(reducedPath,step_two_reduce_diff));
 
-		foreach (BaseSpell spell in this.spells) {
-			
-			if (spell == null || !spell.active) {
+		foreach (DrawerSpellContainer spellContainer in this.spells) {
+			BaseSpell spell = spellContainer.spell;
+			if (spellContainer == null || spellContainer.spell==null || !spellContainer.active) {
 				continue;
 			}
 			bool match = true;
@@ -239,6 +235,7 @@ public class DrawProcessor : MonoBehaviour {
 				break;
 			}
 		}
+
 	}
 
 	void Process(int x, int y) {
@@ -259,6 +256,7 @@ public class DrawProcessor : MonoBehaviour {
 	}
 	// Update is called once per frame
 	void Update () {
+		
 		int left_btn = 0;
 		if (!this.active && Input.GetMouseButtonDown (left_btn)) {
 			this.Activate ();
@@ -272,7 +270,9 @@ public class DrawProcessor : MonoBehaviour {
 		int x = (int)Input.mousePosition.x;
 		int y = (int)Input.mousePosition.y;
 		//var y = this.game.input.y;
+
 		this.Process(x,y);
 		this.Draw();
+		return;
 	}
 }
