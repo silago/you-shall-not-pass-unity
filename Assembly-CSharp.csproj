@@ -57,6 +57,7 @@
      <Compile Include="Assets\Scripts\Wave.cs" />
      <Compile Include="Assets\Spells\Scripts\BaseSpell.cs" />
      <Compile Include="Assets\Spells\Scripts\SpellBolt.cs" />
+     <Compile Include="Assets\Spells\Scripts\SpellCloud.cs" />
      <Compile Include="Assets\Spells\Scripts\SpellGolem.cs" />
      <Compile Include="Assets\Spells\Scripts\SpellLaser.cs" />
      <Compile Include="Assets\Spells\Scripts\SpellRain.cs" />

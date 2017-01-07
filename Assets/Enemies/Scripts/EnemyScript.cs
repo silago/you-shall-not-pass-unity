@@ -17,6 +17,14 @@ public class EnemyScript : GameElement {
 	}
 
 
+	void OnGUI(){
+		//return;
+		var point = Camera.main.WorldToScreenPoint(this.gameObject.transform.position);
+		var x = point.x;
+		var y = Screen.height - point.y+20; // bottom left corner set to the 3D point
+		GUI.Label(new Rect(x,y,500,100),this._health.ToString()); // display its name, or other string
+	}
+
 
 	// Update is called once per frame
 	void Update () {

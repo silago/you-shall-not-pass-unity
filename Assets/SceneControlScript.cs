@@ -8,6 +8,10 @@ public class SceneControlScript : MonoBehaviour {
 	public static int state = 0;
 	public static int STATE_MENU = 0;
 	public static int STATE_GAME = 1;
+	public static Vector2 LOWER_LINE = new Vector3(-3.5f,-1.2f,2f);
+	public static Vector2 UPPER_LINE = new Vector3(-3.5f,0f,2f);
+
+
 	public static List<string> scenes = new List<string> () {
 		"MainScene",
 		"Wave2Scene"

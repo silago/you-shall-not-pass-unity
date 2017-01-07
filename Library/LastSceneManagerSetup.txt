@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Scenes/LevelsList.unity
+- path: Assets/Scenes/Wave1.unity
   isLoaded: 1
   isActive: 1

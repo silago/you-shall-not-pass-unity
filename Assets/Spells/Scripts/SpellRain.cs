@@ -6,18 +6,27 @@ public class SpellRain : BaseSpell {
 		public int cost  = 2;
 		public int _speed = 300;
 
-
-		SpriteRenderer spriteRenderer;
-		Rigidbody2D rigidbody2D;
-
 		void Start () {
-			spriteRenderer 	= GetComponent<SpriteRenderer>();
-			rigidbody2D 	= GetComponent<Rigidbody2D>();		
+		
 			Cast ();
 		}
 
 
 		public void Cast () {
+			
+			this.transform.position += (new Vector3 (4f,2f,0));
+			RaycastHit2D hit = Physics2D.Raycast(this.transform.position, Vector2.right);
+			if (hit.collider != null) {
+				Debug.Log (hit.collider.gameObject.name);
+				var old_pos = this.transform.position;
+				//Debug.Log (">>");
+				//Debug.Log (hit.collider.gameObject.name);
+				this.transform.position = new Vector3 (
+					hit.collider.gameObject.transform.position.x-1,
+					old_pos.y,
+					old_pos.z
+				);
+			}
 			//this.GetComponent<Rigidbody2D>().velocity = new Vector2 (Time.deltaTime*this._speed, 0);
 		}
 

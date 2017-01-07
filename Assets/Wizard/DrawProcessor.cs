@@ -19,6 +19,9 @@ public class DrawProcessor : MonoBehaviour {
 	List<int[]> points = new List<int[]>();
 	//public List<BaseSpell> spells;
 	public DrawerSpellContainer[] spells;
+	private float _mana = 100f;
+	private float _mana_regain  = 1f;
+	private float _max_mana		= 100f;
 
 	bool active = false;
 	LineRenderer lineRenderer;
@@ -99,7 +102,7 @@ public class DrawProcessor : MonoBehaviour {
 		//this.activateSpell ("Rain");
 		//this.activateSpell ("Bolt");
 		//this.activateSpell ("Laser");
-		this.activateSpell ("SpellBolt");
+		//this.activateSpell ("SpellBolt");
 	}
 
 
@@ -231,8 +234,11 @@ public class DrawProcessor : MonoBehaviour {
 				}
 			}
 			if (match == true) {
-				Instantiate(spell);
-				break;
+				if (_mana >= spell._cost) {
+					_mana -= spell._cost;
+					Instantiate(spell);
+					break;
+				}
 			}
 		}
 
@@ -254,8 +260,23 @@ public class DrawProcessor : MonoBehaviour {
 		}
 		return;
 	}
+	void OnGUI () {
+		int top =120;
+		//int top_offset = 40;
+		GUI.TextField (new Rect (100, top, 100, 30), "Mana: "+this._mana.ToString());
+	}
+
 	// Update is called once per frame
 	void Update () {
+		
+		if (_mana < _max_mana) {
+			_mana += Time.deltaTime * _mana_regain; 
+			if (_mana > _max_mana) {
+				_mana = _max_mana;
+			}
+		}
+
+
 		
 		int left_btn = 0;
 		if (!this.active && Input.GetMouseButtonDown (left_btn)) {

@@ -6,8 +6,7 @@ using UnityEngine;
 public class SpellLaser : BaseSpell {
 	public int  cost  = 2;
 	public  int _speed = 300;
-	private float _hit_interval = 3;
-	private float _hit_interval_timer = 0.1f;
+
 
 	Dictionary<int,Collider2D> colliders = new Dictionary<int,Collider2D>() ;
 
@@ -33,7 +32,6 @@ public class SpellLaser : BaseSpell {
 		if (!this.colliders.ContainsKey (coll.GetInstanceID ())) {
 			this.colliders.Add (coll.GetInstanceID (), coll);
 		}
-
 	}
 
 	void Hit(Collider2D coll) {

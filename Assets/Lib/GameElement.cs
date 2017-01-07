@@ -55,10 +55,14 @@ public class GameElementObject : ScriptableObject {
 public class GameElement : MonoBehaviour {
 
 	public float	_health	= 100	;
+	public float    _cost   = 1		; 
 	public float	_damage	= 50	;
 	public bool	_destroyable = true	;
 
+	public float _hit_interval = 3;
+	public float _hit_interval_timer = 0.1f;
 
+	Dictionary<int,Collision2D> collision_colliders = new Dictionary<int,Collision2D>() ;
 
 
 	public void init() {
@@ -66,21 +70,33 @@ public class GameElement : MonoBehaviour {
 		return;
 	}
 
-	public void Die() {
+	public virtual void Die() {
 		Destroy (this.gameObject);
 	}
 
-	/*
-	void OnCollisionEnter2D(Collision2D coll) {
-		Debug.Log ("col");
-		if (coll.gameObject.tag != this.gameObject.tag) {
-			coll.gameObject.SendMessage("GetHit", this._damage);
+
+	void OnCollisionExit2D(Collision2D coll) {
+		if (this.collision_colliders.ContainsKey (coll.gameObject.GetInstanceID ())) {
+			this.collision_colliders.Remove (coll.gameObject.GetInstanceID ());
 		}
 	}
-	*/
+
+	void OnCollisionEnter2D(Collision2D coll) {
+		CollisionHit (coll);
+
+		if (!this.collision_colliders.ContainsKey (coll.gameObject.GetInstanceID ())) {
+			this.collision_colliders.Add (coll.gameObject.GetInstanceID (), coll);
+		}
+	}
+		
+
+	void CollisionHit(Collision2D coll) {
+		coll.gameObject.SendMessage("GetHit", this._damage);
+	}
+
 
 	void OnTriggerEnter2D(Collider2D coll) {
-		//Debug.Log ("trig");
+		Debug.Log ("trig");
 		if (coll.gameObject.tag != this.gameObject.tag) {
 			Debug.Log (coll.gameObject.name);
 			if (coll!=null)
@@ -101,6 +117,23 @@ public class GameElement : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		
+	}
+
+	void FixedUpdate () {
+		_hit_interval_timer -= Time.deltaTime;
+		if (_hit_interval_timer <= 0) {
+			_hit_interval_timer = _hit_interval;
+
+			foreach (KeyValuePair<int,Collision2D> kv in this.collision_colliders) {
+				if (kv.Value.gameObject == null)
+					continue;
+				CollisionHit(kv.Value);
+			}
+		}
+		this._health -= Time.deltaTime;
+		if (this._health < 0) {
+			Die();
+		}
 	}
 	
 	// Update is called once per frame

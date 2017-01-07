@@ -6,16 +6,27 @@ using UnityEngine;
 public class SpellGolem : BaseSpell {
 	public int  cost  = 2;
 	public  int _speed = 300;
-	private float _hit_interval = 3;
-	private float _hit_interval_timer = 0.1f;
+
 
 	Dictionary<int,Collision2D> colliders = new Dictionary<int,Collision2D>() ;
 
 	void Start () {
+		this._hit_interval = 3;
+		this._hit_interval_timer = 0.1f;
 		Cast ();
 	}
 
 	public void Cast () {
+		RaycastHit2D hit = Physics2D.Raycast(this.transform.position+(new Vector3(1,0)), Vector2.right);
+		if (hit.collider != null) {
+			Debug.Log (hit.collider.gameObject.name);
+			var old_pos = this.transform.position;
+			this.transform.position = new Vector3 (
+				hit.collider.gameObject.transform.position.x-1,
+				old_pos.y,
+				old_pos.z
+			);
+		}
 		//this.GetComponent<Rigidbody2D>().velocity = new Vector2 (Time.deltaTime*this._speed, 0);
 	}
 		
