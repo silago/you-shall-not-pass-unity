@@ -68,4 +68,6 @@ public class SpellGolem : BaseSpell {
 			this.Die();
 		}
 	}
+
+
 }
