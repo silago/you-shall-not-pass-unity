@@ -130,10 +130,6 @@ public class GameElement : MonoBehaviour {
 				CollisionHit(kv.Value);
 			}
 		}
-		this._health -= Time.deltaTime;
-		if (this._health < 0) {
-			Die();
-		}
 	}
 	
 	// Update is called once per frame
