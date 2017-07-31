@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class SpellBolt : BaseSpell {
 	public int cost  = 2;
-	private float  _speed = 1f;
+	private float  _speed = 5f;
 	//Rigidbody2D rigidbody2D;
 
 	void Start () {

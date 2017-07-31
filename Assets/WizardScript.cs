@@ -8,6 +8,7 @@ public class WizardScript : GameElement {
 	public float _mana  = 100.0f;
 	//private float _mana_regain;
 	public float _speed = 200.0f;
+	public const string TAG = "Player";
 
 	void OnGUI(){
 		//return;

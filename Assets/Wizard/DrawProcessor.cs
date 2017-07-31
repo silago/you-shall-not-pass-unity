@@ -125,7 +125,7 @@ public class DrawProcessor : MonoBehaviour {
 		if (lineRenderer == null) {
 			return;
 		}
-		lineRenderer.numPositions = path.Count;
+		lineRenderer.positionCount = path.Count;
 		for(int i = 0; i < this.path.Count; i++)
 		{	
 			lineRenderer.SetPosition(i, Camera.main.ScreenToWorldPoint(new Vector3 (this.path [i] [0], this.path [i] [1],1)));

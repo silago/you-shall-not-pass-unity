@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
 using UnityEditor;
 using System.IO;
 
@@ -48,6 +47,29 @@ public class GameElementObject : ScriptableObject {
 	public float	_damage	= 50	;
 	public float    _cost   = 1		; 
 	public bool	_destroyable = true	;
+}
+
+public class CollidingRules
+{
+	public static bool Check(string a, string b)
+	{
+
+		if (a == b)
+		{
+			return false;
+		}
+
+		if ( (a == "Player" && b == "Spell") || ( a =="Spell" && b == "Player"))
+		{
+			return false;
+		}
+		if (a == b)
+		{
+			return false;
+		}
+
+		return true;
+	}
 }
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -96,11 +118,11 @@ public class GameElement : MonoBehaviour {
 
 
 	void OnTriggerEnter2D(Collider2D coll) {
-		Debug.Log ("trig");
-		if (coll.gameObject.tag != this.gameObject.tag) {
-			Debug.Log (coll.gameObject.name);
-			if (coll!=null)
-			coll.gameObject.SendMessage("GetHit", this._damage);
+		if (CollidingRules.Check(coll.gameObject.tag, this.gameObject.tag))
+		{
+			Debug.Log(coll.gameObject.name);
+			if (coll != null)
+				coll.gameObject.SendMessage("GetHit", this._damage);
 		}
 	}
 
